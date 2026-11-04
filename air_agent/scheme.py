@@ -1,4 +1,5 @@
 """方案生成：模板（规则模式）或 LLM（DeepSeek 模式）。金额一律回填引擎结果。"""
+from . import data
 from .state import FeeItem, SchemeOption, SchemeOutput
 
 STATUS_LABEL = {"scheduled": "计划正常", "delayed": "延误", "cancelled": "已取消"}
@@ -47,7 +48,7 @@ def generate(results: list[dict], feedback: list[str] | None = None, llm=None, c
         o, t = _option(r)
         opts.append(o)
         texts.append(t)
-    out = SchemeOutput(options=opts, text="".join(texts))
+    out = SchemeOutput(options=opts, text="".join(texts), texts=texts)
     if llm is not None:
         polished = llm.write_scheme(out, results, feedback or [], context or {})
         if polished:
@@ -56,5 +57,17 @@ def generate(results: list[dict], feedback: list[str] | None = None, llm=None, c
 
 
 def enforce_amounts(candidate: SchemeOutput, reference: SchemeOutput) -> SchemeOutput:
-    """LLM 只负责措辞：结构化字段一律用模板（引擎）值覆盖。"""
-    return SchemeOutput(options=reference.options, text=candidate.text)
+    """LLM 只负责措辞：结构化字段一律用模板（引擎）值覆盖；子方案文案保留模板版本。"""
+    return SchemeOutput(options=reference.options, text=candidate.text, texts=reference.texts)
+
+
+def ensure_fee_rule(result: dict) -> dict:
+    """引擎用到的依据规则若没被检索到，就从规则库补进 rules 头部（返回新字典，不改入参）。"""
+    fee = result.get("fee")
+    if not fee or result.get("error") or not fee.get("rule_id"):
+        return result
+    rules = result.get("rules") or []
+    if any(x["id"] == fee["rule_id"] for x in rules):
+        return result
+    rule = data.get_rule(fee["rule_id"])
+    return {**result, "rules": [rule] + list(rules)} if rule else result

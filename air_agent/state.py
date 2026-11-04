@@ -46,6 +46,7 @@ class SchemeOption(BaseModel):
 class SchemeOutput(BaseModel):
     options: list[SchemeOption]
     text: str
+    texts: list[str] = Field(default_factory=list)   # 与 options 一一对应的子方案文案，供 verify 逐项校验
 
 
 class AgentState(TypedDict, total=False):
