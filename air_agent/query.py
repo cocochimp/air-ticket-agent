@@ -17,6 +17,10 @@ INTENT_PATTERNS = [
                r"|还飞吗"),
     ("POLICY", r"规则|政策|规定"),
 ]
+# 问题里同时有改签/退票诉求时，STATUS 只在用户明确在问航班状态时才成立；
+# 「航班取消了，帮我退票」里的「航班取消了」是陈述，不是状态查询
+STATUS_EXPLICIT = (r"(?:航班|飞机|这班|那班|这票|这张).{0,6}"
+                   r"(?:状态|延误了吗|取消了吗|准点吗|正常吗|还飞吗|啥情况|什么情况|怎么样了)")
 SPLIT = r"顺便|另外|还有|同时|以及|并且|再帮我|再看"
 PRODUCT_SYNONYMS = [("SPECIAL", r"特价"), ("GROUP", r"团队|团购"), ("Y_DISCOUNT", r"打折|折扣"),
                     ("F", r"头等"), ("C", r"公务|商务舱"), ("Y", r"全价|经济舱")]
@@ -93,10 +97,12 @@ def find_date(text: str):
     return m.group(0) if m else None
 
 
-def detect_intents(text: str) -> list[str]:
+def detect_intents(text: str, strict_status: bool = False) -> list[str]:
     hits = []
     for intent, pat in INTENT_PATTERNS:
         m = re.search(pat, text)
+        if m and intent == "STATUS" and strict_status and not re.search(STATUS_EXPLICIT, text):
+            continue
         if m:
             hits.append((m.start(), intent))
     return [i for _, i in sorted(hits)]
@@ -190,8 +196,9 @@ def date_options(n=5):
 def understand(question: str, ctx: dict, llm=None) -> ParsedQuery:
     segments = [s for s in re.split(SPLIT, question) if s.strip()] or [question]
     subs, guessed = [], False
+    strict_status = any(i in ("CHANGE", "REFUND") for i in detect_intents(question))   # 整句判断，分句不能各自放行
     for seg in segments:
-        for intent in detect_intents(seg):
+        for intent in detect_intents(seg, strict_status):
             if not any(s.intent == intent for s in subs):
                 subs.append(SubQuery(intent=intent, text=seg.strip(" ，,。"),
                                      target_date=find_date(seg) if intent == "CHANGE" else None))

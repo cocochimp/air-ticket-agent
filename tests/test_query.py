@@ -197,3 +197,18 @@ def test_order_clarify_lists_all_issued_orders_with_departed_label():
 def test_order_label_tolerates_missing_flight():
     label = query.order_label({"flight_no": "XX9999", "date": "2026-09-30", "fare_product": "Y"})
     assert "XX9999" in label
+
+
+@pytest.mark.parametrize("text,intents", [
+    ("航班取消了，帮我退票", ["REFUND"]),
+    ("航班取消了怎么办，我要退票", ["REFUND"]),
+    ("航班延误了能退票吗", ["REFUND"]),
+    ("航班取消了，另外帮我退票", ["REFUND"]),
+    ("这个航班现在什么情况", ["STATUS"]),
+    ("航班延误了吗", ["STATUS"]),
+    ("帮我看下这票现在啥情况，能改到后天吗", ["STATUS", "CHANGE"]),
+    ("明天的航班延误了吗，另外帮我改签", ["STATUS", "CHANGE"]),
+])
+def test_status_intent_only_for_status_questions(text, intents):
+    p = query.understand(text, ctx(user_id="u_wang", selected_order_id=f"ORD{D}007"))
+    assert [s.intent for s in p.sub_queries] == intents
