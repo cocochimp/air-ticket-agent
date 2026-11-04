@@ -1,0 +1,30 @@
+[project]
+name = "air-ticket-agent"
+version = "0.1.0"
+description = "机票退改签 Agent MVP（LangGraph）"
+requires-python = ">=3.13"
+dependencies = [
+  "langgraph>=1.0,<2",
+  "langgraph-checkpoint-sqlite>=3,<4",
+  "fastapi>=0.115,<1",
+  "uvicorn>=0.30,<1",
+  "pydantic>=2.9,<3",
+  "httpx>=0.28,<1",
+  "fastembed>=0.7,<1",
+  "qdrant-client>=1.14,<2",
+  "rank-bm25>=0.2.2",
+  "jieba>=0.42",
+  "flashrank>=0.2,<1",
+]
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.uv]
+index-url = "https://mirrors.aliyun.com/pypi/simple"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+markers = ["slow: 需要下载/加载真实检索模型"]
+addopts = "-m 'not slow'"
