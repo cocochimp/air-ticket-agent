@@ -74,6 +74,7 @@ def init(force: bool = False):
         c.executemany("INSERT INTO rules VALUES(:id,:airline,:cabin,:fare_product,:scenario,:title,:content,:ts)",
                       [{**r, "ts": now.isoformat()} for r in seed.rules()])
         c.execute("INSERT OR REPLACE INTO meta VALUES('seeded', ?)", (now.isoformat(),))
+        _bump_rules_version(c)
 
 
 def _all(sql, args=()):
@@ -157,12 +158,25 @@ def get_rule(rule_id):
     return _one("SELECT * FROM rules WHERE id=?", (rule_id,))
 
 
+def _bump_rules_version(c):
+    """规则版本号存在 meta 表里，跨进程共享；检索索引据此判断是否需要重建。"""
+    row = c.execute("SELECT value FROM meta WHERE key='rules_version'").fetchone()
+    c.execute("INSERT OR REPLACE INTO meta VALUES('rules_version', ?)", (str(int(row["value"]) + 1 if row else 1),))
+
+
+def rules_version() -> int:
+    r = _one("SELECT value FROM meta WHERE key='rules_version'")
+    return int(r["value"]) if r else 0
+
+
 def upsert_rule(rule: dict):
     with connect() as c:
+        _bump_rules_version(c)
         c.execute("INSERT OR REPLACE INTO rules VALUES(:id,:airline,:cabin,:fare_product,:scenario,:title,"
                   ":content,:ts)", {**rule, "ts": S.now().isoformat()})
 
 
 def delete_rule(rule_id):
     with connect() as c:
+        _bump_rules_version(c)
         c.execute("DELETE FROM rules WHERE id=?", (rule_id,))

@@ -22,7 +22,8 @@ DEFAULTS = {
     "retrieval": {"backend": os.environ.get("AIR_RETRIEVAL", "hybrid"),   # hybrid | fallback
                   "k_recall": 60, "k_fuse": 40, "k_rerank": 10, "k_mmr": 5, "k_inject": 3,
                   "rrf_k": 60, "rerank_min": 0.6, "mmr_lambda": 0.7, "profile_boost": 0.1,
-                  "dense_min": {"hybrid": 0.5, "fallback": 0.25}},
+                  "dense_min": {"hybrid": 0.6, "fallback": 0.25},
+                  "dense_strict": {"hybrid": 0.7, "fallback": 0.45}},
     "memory": {"recent_turns": 4, "order_stack": 5, "token_budget": 3000,
                "budget_share": {"system": 0.15, "order": 0.15, "rules": 0.4,
                                 "history": 0.2, "profile": 0.1}},
