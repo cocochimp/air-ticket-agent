@@ -20,6 +20,7 @@ CREATE TABLE IF NOT EXISTS fee_rules(airline TEXT, fare_product TEXT, data TEXT,
 CREATE TABLE IF NOT EXISTS rules(id TEXT PRIMARY KEY, airline TEXT, cabin TEXT, fare_product TEXT,
   scenario TEXT, title TEXT, content TEXT, updated_at TEXT);
 CREATE TABLE IF NOT EXISTS meta(key TEXT PRIMARY KEY, value TEXT);
+CREATE TABLE IF NOT EXISTS session_memory(session_id TEXT PRIMARY KEY, user_id TEXT, data TEXT, updated_at TEXT);
 """
 JSON_COLS = {"fares", "data"}
 
