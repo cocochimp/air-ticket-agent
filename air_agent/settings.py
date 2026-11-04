@@ -1,4 +1,7 @@
-"""运行配置：默认值 + config.json 覆盖 + 运行时修改（配置中心调用 update）。"""
+"""运行配置：默认值 + config.json 覆盖 + 运行时修改（配置中心调用 update）。
+
+config.json 只保存相对默认值的覆盖项（_overrides），生效配置 = DEFAULTS 与覆盖项合并。
+"""
 import copy
 import json
 import os
@@ -27,49 +30,84 @@ DEFAULTS = {
 }
 
 _lock = threading.Lock()
-_cfg = None
+_cfg = None          # 生效配置
+_overrides = {}      # 相对 DEFAULTS 的覆盖项，只有它会写入 config.json
 _now = datetime.fromisoformat(os.environ["AIR_NOW"]) if os.environ.get("AIR_NOW") else None
+
+
+def _check_type(default, value, path):
+    if isinstance(default, dict):
+        ok = isinstance(value, dict)
+    elif isinstance(default, bool):
+        ok = isinstance(value, bool)
+    elif isinstance(default, (int, float)):
+        ok = isinstance(value, (int, float)) and not isinstance(value, bool)
+    elif isinstance(default, str):
+        ok = isinstance(value, str)
+    else:
+        ok = True
+    if not ok:
+        raise TypeError(f"配置项 {path} 类型错误：期望 {type(default).__name__}，实际 {type(value).__name__}")
 
 
 def _merge(base, patch, path=""):
     for k, v in patch.items():
         if k not in base:
             raise KeyError(f"未知配置项：{path}{k}")
-        if isinstance(base[k], dict) and isinstance(v, dict) and k != "budget_share":
+        _check_type(base[k], v, f"{path}{k}")
+        if isinstance(base[k], dict) and k != "budget_share":
             _merge(base[k], v, f"{path}{k}.")
         else:
-            base[k] = v
+            base[k] = copy.deepcopy(v)
+
+
+def _deep_set(target, patch):
+    """把已校验的 patch 并入覆盖项；budget_share 整体替换。"""
+    for k, v in patch.items():
+        if isinstance(v, dict) and k != "budget_share":
+            _deep_set(target.setdefault(k, {}), v)
+        else:
+            target[k] = copy.deepcopy(v)
 
 
 def _load():
     cfg = copy.deepcopy(DEFAULTS)
-    if CONFIG_PATH.exists():
-        _merge(cfg, json.loads(CONFIG_PATH.read_text("utf-8")))
-    return cfg
+    overrides = json.loads(CONFIG_PATH.read_text("utf-8")) if CONFIG_PATH.exists() else {}
+    _merge(cfg, overrides)
+    return cfg, overrides
+
+
+def _ensure():
+    global _cfg, _overrides
+    if _cfg is None:
+        _cfg, _overrides = _load()
 
 
 def get():
-    global _cfg
     with _lock:
-        if _cfg is None:
-            _cfg = _load()
+        _ensure()
         return _cfg
 
 
 def update(patch: dict):
-    global _cfg
+    global _cfg, _overrides
     with _lock:
-        cfg = copy.deepcopy(_cfg if _cfg is not None else _load())
-        _merge(cfg, patch)
-        _cfg = cfg
-        CONFIG_PATH.write_text(json.dumps(cfg, ensure_ascii=False, indent=2), "utf-8")
+        _ensure()
+        cfg = copy.deepcopy(_cfg)
+        _merge(cfg, patch)                      # 先校验，失败则不改任何状态
+        overrides = copy.deepcopy(_overrides)
+        _deep_set(overrides, patch)
+        CONFIG_PATH.write_text(json.dumps(overrides, ensure_ascii=False, indent=2), "utf-8")
+        _cfg, _overrides = cfg, overrides
         return cfg
 
 
 def reset():
-    global _cfg
+    """仅供测试使用：会删除 config.json。"""
+    global _cfg, _overrides
     with _lock:
         _cfg = copy.deepcopy(DEFAULTS)
+        _overrides = {}
         if CONFIG_PATH.exists():
             CONFIG_PATH.unlink()
 

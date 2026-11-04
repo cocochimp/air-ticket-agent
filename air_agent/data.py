@@ -2,6 +2,7 @@
 import json
 import sqlite3
 import threading
+from datetime import datetime
 from contextlib import contextmanager
 from . import seed
 from . import settings as S
@@ -51,12 +52,13 @@ def _row(r):
 def init(force: bool = False):
     with _init_lock, connect() as c:
         c.executescript(SCHEMA)
+        now = S.now()
         seeded = c.execute("SELECT value FROM meta WHERE key='seeded'").fetchone()
-        if seeded and not force:
+        # 同一天重复 init 保留已有数据；跨天（种子是以「今天」为基准生成的）则重新生成
+        if seeded and not force and datetime.fromisoformat(seeded["value"]).date() >= now.date():
             return
         for t in ("flights", "orders", "profiles", "fee_rules", "rules"):
             c.execute(f"DELETE FROM {t}")
-        now = S.now()
         today = now.date()
         fl = seed.flights(today)
         od = seed.orders(today, now, fl)
@@ -89,14 +91,15 @@ def get_order(order_id):
 
 
 def list_orders(user_id=None):
-    if user_id:
+    if user_id is not None:
         return _all("SELECT * FROM orders WHERE user_id=? ORDER BY date", (user_id,))
     return _all("SELECT * FROM orders ORDER BY order_id")
 
 
 def update_order(order_id, **fields):
     allowed = {"flight_no", "date", "fare", "status", "ticket_no"}
-    assert set(fields) <= allowed, fields
+    if not fields or not set(fields) <= allowed:
+        raise ValueError(f"update_order 只允许修改 {sorted(allowed)}，收到 {sorted(fields)}")
     sets = ", ".join(f"{k}=?" for k in fields)
     with connect() as c:
         c.execute(f"UPDATE orders SET {sets} WHERE order_id=?", (*fields.values(), order_id))
@@ -109,14 +112,15 @@ def get_flight(flight_no, date):
 def list_flights(origin=None, dest=None, date=None):
     sql, args = "SELECT * FROM flights WHERE 1=1", []
     for col, val in (("origin", origin), ("dest", dest), ("date", date)):
-        if val:
+        if val is not None:
             sql += f" AND {col}=?"
             args.append(val)
     return _all(sql + " ORDER BY date, dep_time", args)
 
 
 def set_flight_status(flight_no, date, status, delay_min=0):
-    assert status in {"scheduled", "delayed", "cancelled"}
+    if status not in {"scheduled", "delayed", "cancelled"}:
+        raise ValueError(f"非法航班状态：{status}")
     with connect() as c:
         c.execute("UPDATE flights SET status=?, delay_min=? WHERE flight_no=? AND date=?",
                   (status, delay_min if status == "delayed" else 0, flight_no, date))
@@ -143,7 +147,7 @@ def get_fee_rule(airline, fare_product):
 def list_rules(airline=None, fare_product=None, scenario=None):
     sql, args = "SELECT * FROM rules WHERE 1=1", []
     for col, val in (("airline", airline), ("fare_product", fare_product), ("scenario", scenario)):
-        if val:
+        if val is not None:
             sql += f" AND {col}=?"
             args.append(val)
     return _all(sql + " ORDER BY id", args)

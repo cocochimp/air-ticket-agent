@@ -85,26 +85,33 @@ def _expected(err) -> str:
     return err["msg"]
 
 
+def _unknown_tool_error(tool) -> dict:
+    return {"field": "tool", "kind": "UNKNOWN_TOOL", "expected": "、".join(REACT_TOOLS),
+            "got": tool, "message": f"没有工具 {tool}"}
+
+
 def validate(tool: str, args: dict):
     """返回 (校验后的模型, 错误列表)。错误项：{field, kind, expected, got, message}。"""
     schema = SCHEMAS.get(tool)
     if schema is None:
-        return None, [{"field": "tool", "kind": "UNKNOWN_TOOL", "expected": "、".join(REACT_TOOLS),
-                       "got": tool, "message": f"没有工具 {tool}"}]
+        return None, [_unknown_tool_error(tool)]
     try:
         return schema.model_validate(args or {}), []
     except ValidationError as e:
         errs = []
         for err in e.errors():
             field = ".".join(str(x) for x in err["loc"]) or ("target_date" if "target_date" in err["msg"] else "args")
-            errs.append({"field": field, "kind": _kind(err), "expected": _expected(err),
-                         "got": err.get("input") if err["type"] != "missing" else None,
+            kind = _kind(err)
+            errs.append({"field": field, "kind": kind, "expected": _expected(err),
+                         "got": None if kind == "MISSING" else err.get("input"),
                          "message": f"{field}：{_expected(err)}"})
         return None, errs
 
 
 def run_tool(tool: str, args: dict, boost: dict | None = None) -> dict:
     """统一执行入口：{ok, output} 或 {ok: False, kind, errors|error}。"""
+    if tool not in REACT_TOOLS:       # tool_issue_ticket 只能走确认流程，不允许经此入口执行
+        return {"ok": False, "kind": "UNKNOWN_TOOL", "errors": [_unknown_tool_error(tool)]}
     model, errs = validate(tool, args)
     if errs:
         return {"ok": False, "kind": errs[0]["kind"], "errors": errs}
@@ -126,7 +133,9 @@ def run_tool(tool: str, args: dict, boost: dict | None = None) -> dict:
             return {"ok": True, "output": {"reason": a["reason"]}}
     except engine.EngineError as e:
         return {"ok": False, "kind": "ENGINE", "error": {"code": e.code, "message": str(e)}}
-    return {"ok": False, "kind": "UNKNOWN_TOOL", "errors": [{"field": "tool", "message": tool}]}
+    except Exception as e:
+        return {"ok": False, "kind": "ENGINE", "error": {"code": "INTERNAL", "message": f"{type(e).__name__}: {e}"}}
+    return {"ok": False, "kind": "UNKNOWN_TOOL", "errors": [_unknown_tool_error(tool)]}
 
 
 def llm_specs() -> list[dict]:

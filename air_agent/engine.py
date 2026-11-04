@@ -10,6 +10,11 @@ class EngineError(Exception):
         self.code = code
 
 
+def _pct(amount: int, pct: int) -> int:
+    """按百分比取整，整数四舍五入（half-up），避免浮点与银行家舍入。"""
+    return (amount * pct + 50) // 100
+
+
 def departure(flight) -> datetime:
     return datetime.fromisoformat(f"{flight['date']}T{flight['dep_time']}")
 
@@ -42,10 +47,14 @@ def calc(order_id: str, action: str, target_date: str | None = None, target_flig
     if order["status"] != "ISSUED":
         raise EngineError("ORDER_NOT_ISSUED", f"订单状态为 {order['status']}，不能办理退改")
     flight = data.get_flight(order["flight_no"], order["date"])
+    if not flight:
+        raise EngineError("DATA_MISSING", f"订单 {order_id} 的航班 {order['flight_no']} {order['date']} 不存在")
     now = S.now()
     w = window(departure(flight), now)
     inv = involuntary_reason(flight)
     rates = data.get_fee_rule(order["airline"], order["fare_product"])
+    if not rates:
+        raise EngineError("DATA_MISSING", f"缺少费率表：{order['airline']} {order['fare_product']}")
     fare, tax = order["fare"], order["tax"]
     base = {"order_id": order_id, "action": action, "currency": "CNY", "fare": fare, "tax": tax,
             "window": w, "window_label": seed.WINDOW_LABEL[w], "involuntary": bool(inv),
@@ -56,10 +65,15 @@ def calc(order_id: str, action: str, target_date: str | None = None, target_flig
         if not target_date:
             raise EngineError("MISSING_TARGET_DATE", "改签必须提供 target_date（YYYY-MM-DD）")
         tf = data.get_flight(target_flight or order["flight_no"], target_date)
-        if not tf or (tf["origin"], tf["dest"]) != (flight["origin"], flight["dest"]):
+        if (not tf or (tf["origin"], tf["dest"]) != (flight["origin"], flight["dest"])
+                or tf["airline"] != order["airline"]):
             raise EngineError("NO_TARGET_FLIGHT", f"{target_date} 没有可改签的航班")
+        if tf["flight_no"] == order["flight_no"] and target_date == order["date"]:
+            raise EngineError("SAME_FLIGHT", "改签目标与原航班相同")
         if tf["status"] == "cancelled" or departure(tf) <= now:
             raise EngineError("TARGET_UNAVAILABLE", f"{tf['flight_no']} {target_date} 不可改签")
+        if order["fare_product"] not in tf["fares"]:
+            raise EngineError("DATA_MISSING", f"{tf['flight_no']} {target_date} 没有 {order['fare_product']} 票价")
         target = {"flight_no": tf["flight_no"], "date": target_date, "dep_time": tf["dep_time"],
                   "fare": tf["fares"][order["fare_product"]]}
         base.update(target=target, change_fee=0, fare_diff=0, total=0)
@@ -69,7 +83,7 @@ def calc(order_id: str, action: str, target_date: str | None = None, target_flig
         if rates["change"] is None:
             return {**base, "rule_id": rule_id, "allowed": False, "reason": "该票价产品不得自愿改签"}
         pct = rates["change"][seed.WINDOWS.index(w)]
-        fee = round(fare * pct / 100)
+        fee = _pct(fare, pct)
         diff = max(0, target["fare"] - fare)
         return {**base, "rule_id": rule_id, "rate_pct": pct, "change_fee": fee, "fare_diff": diff,
                 "total": fee + diff}
@@ -82,7 +96,7 @@ def calc(order_id: str, action: str, target_date: str | None = None, target_flig
         if rates["refund"] is None:
             return {**base, "rule_id": rule_id, "allowed": False, "reason": "该票价产品不得自愿退票"}
         pct = rates["refund"][seed.WINDOWS.index(w)]
-        fee = round(fare * pct / 100)
+        fee = _pct(fare, pct)
         return {**base, "rule_id": rule_id, "rate_pct": pct, "refund_fee": fee,
                 "refund_amount": fare - fee + tax}
 

@@ -88,6 +88,8 @@ PROFILES = [
 
 
 def orders(today, now: datetime, flight_rows):
+    # 注意：这里会直接修改 flight_rows（今天订单的起飞时间、各订单航班的状态），这是有意为之。
+    # data.init() 在调用本函数之后才把航班写入数据库。
     by_key = {(f["flight_no"], f["date"]): f for f in flight_rows}
     out = []
     for i, (uid, al, ri, prod, off, pax, status, delay) in enumerate(ORDER_SPECS, start=1):
@@ -95,7 +97,8 @@ def orders(today, now: datetime, flight_rows):
         f = by_key[(flight_no(ai, ri, al), (today + timedelta(days=off)).isoformat())]
         if off == 0:
             dep = now + timedelta(hours=3)
-            f["dep_time"] = f"{dep.hour:02d}:{dep.minute:02d}" if dep.date() == today else "23:50"
+            # now+3h 跨午夜时落在 23:59，此时演示订单离起飞不足 3 小时
+            f["dep_time"] = f"{dep.hour:02d}:{dep.minute:02d}" if dep.date() == today else "23:59"
         f["status"], f["delay_min"] = status, delay
         out.append({"order_id": f"ORD{today:%Y%m%d}{i:03d}", "user_id": uid, "passenger": pax,
                     "flight_no": f["flight_no"], "date": f["date"], "airline": al,
