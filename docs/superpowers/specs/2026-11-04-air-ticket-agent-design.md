@@ -75,12 +75,14 @@ agent_node（ReAct：给出 Thought，再选 Action）
 verify_node
   ├ confidence ≥ 阈值（默认 0.85）→ finish
   ├ 不到阈值且 retries < 上限（默认 1）→ retry_node（回灌具体错误）→ tool_scheme_gen
-  └ 仍不通过 → human_review（interrupt，页面显示「已转人工」，可以人工给出结论后继续）
+  └ 仍不通过 → human_review（结束本轮，outcome=HUMAN，页面显示「已转人工」并列出未通过的校验项）
 
-finish：合并多个子诉求的结果，写入短期记忆和长期画像，结束（END）
+finish：合并多个子诉求的结果，写入短期记忆和长期画像；有可办理的方案时进入 await_confirm，否则结束（END）
 
-出票分支：用户点「确认改签/退票」时调用 /api/resume，执行 action=issue_ticket
-  → await_confirm（interrupt，返回金额明细）→ 用户确认 → tool_issue_ticket（按 confirm_id 幂等）→ END
+await_confirm（interrupt，返回可办理方案和金额明细）
+  ├ 用户点「确认改签/退票」→ /api/resume → tool_issue_ticket（引擎重算金额，按 confirm_id 幂等）→ END
+  ├ 用户点「取消」→ END（outcome=CANCELLED）
+  └ 用户直接发新消息 → 新一轮从 START 开始，丢弃未确认的方案
 ```
 
 - **多诉求**：`query_understand` 产出 `sub_queries`，`agent_node` 一次处理一个子诉求，处理完写入 `results[i]` 后切到下一个。所有子诉求完成后才进入 `tool_scheme_gen`。
