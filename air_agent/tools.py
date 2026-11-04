@@ -1,8 +1,11 @@
 """Function Calling 工具：参数 Schema、校验与统一执行入口。"""
+import hashlib
+import json
 from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field, ValidationError, model_validator
 from pydantic_core import PydanticCustomError
 from . import data, engine
+from . import settings as S
 
 DATE = r"^\d{4}-\d{2}-\d{2}$"
 FLIGHT = r"^[A-Z0-9]{2}\d{3,4}$"
@@ -146,3 +149,46 @@ def llm_specs() -> list[dict]:
         out.append({"type": "function", "function": {"name": name, "description": schema.__doc__.strip(),
                                                       "parameters": schema.model_json_schema()}})
     return out
+
+
+def _ticket_no(confirm_id: str, flight_no: str) -> str:
+    """由 confirm_id 和目标航班确定性生成票号（不用 hash()：它每个进程的盐不同）。"""
+    h = hashlib.sha1(f"{confirm_id}:{flight_no}".encode()).hexdigest()
+    return f"781-{int(h, 16) % 10**10:010d}"
+
+
+def issue_ticket(args: dict) -> dict:
+    """出票/退票。金额在出票时由引擎重算；同一 confirm_id 只办理一次。永不抛异常，失败返回 REJECTED。"""
+    model, errs = validate("tool_issue_ticket", args)
+    if errs:
+        return {"status": "REJECTED", "reason": errs[0]["message"]}
+    a = model.model_dump()
+    try:
+        # 幂等检查、改订单、写 tickets 在同一个写事务里：并发的同一 confirm_id 只会办理一次
+        with data.transaction() as c:
+            row = c.execute("SELECT result FROM tickets WHERE confirm_id=?", (a["confirm_id"],)).fetchone()
+            if row:
+                return {**json.loads(row["result"]), "idempotent": True}
+            fee = engine.calc(a["order_id"], a["action"], a["target_date"], a["target_flight"])
+            if not fee["allowed"]:
+                return {"status": "REJECTED", "reason": fee["reason"]}
+            order = data.get_order(a["order_id"])
+            if a["action"] == "CHANGE":
+                t = fee["target"]
+                ticket_no = _ticket_no(a["confirm_id"], t["flight_no"])
+                data.update_order(a["order_id"], conn=c, flight_no=t["flight_no"], date=t["date"],
+                                  fare=max(order["fare"], t["fare"]), ticket_no=ticket_no)
+                result = {"status": "CHANGED", "action": "CHANGE", "order_id": a["order_id"],
+                          "ticket_no": ticket_no, "amount": fee["total"], "target": t}
+            else:
+                data.update_order(a["order_id"], conn=c, status="REFUNDED")
+                result = {"status": "REFUNDED", "action": "REFUND", "order_id": a["order_id"],
+                          "ticket_no": order["ticket_no"], "amount": fee["refund_amount"]}
+            c.execute("INSERT INTO tickets VALUES(?,?,?,?,?)",
+                      (a["confirm_id"], a["order_id"], a["action"],
+                       json.dumps(result, ensure_ascii=False), S.now().isoformat()))
+        return {**result, "idempotent": False}
+    except engine.EngineError as e:
+        return {"status": "REJECTED", "reason": str(e)}
+    except Exception as e:
+        return {"status": "REJECTED", "reason": f"出票失败：{type(e).__name__}: {e}"}

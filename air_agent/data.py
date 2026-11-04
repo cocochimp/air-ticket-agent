@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS rules(id TEXT PRIMARY KEY, airline TEXT, cabin TEXT, 
   scenario TEXT, title TEXT, content TEXT, updated_at TEXT);
 CREATE TABLE IF NOT EXISTS meta(key TEXT PRIMARY KEY, value TEXT);
 CREATE TABLE IF NOT EXISTS session_memory(session_id TEXT PRIMARY KEY, user_id TEXT, data TEXT, updated_at TEXT);
+CREATE TABLE IF NOT EXISTS tickets(confirm_id TEXT PRIMARY KEY, order_id TEXT, action TEXT, result TEXT, created_at TEXT);
 """
 JSON_COLS = {"fares", "data"}
 
@@ -114,13 +115,17 @@ def list_orders(user_id=None):
     return _all("SELECT * FROM orders ORDER BY order_id")
 
 
-def update_order(order_id, **fields):
+def update_order(order_id, conn=None, **fields):
     allowed = {"flight_no", "date", "fare", "status", "ticket_no"}
     if not fields or not set(fields) <= allowed:
         raise ValueError(f"update_order 只允许修改 {sorted(allowed)}，收到 {sorted(fields)}")
     sets = ", ".join(f"{k}=?" for k in fields)
+    sql, args = f"UPDATE orders SET {sets} WHERE order_id=?", (*fields.values(), order_id)
+    if conn is not None:          # 在调用方的事务里执行
+        conn.execute(sql, args)
+        return
     with connect() as c:
-        c.execute(f"UPDATE orders SET {sets} WHERE order_id=?", (*fields.values(), order_id))
+        c.execute(sql, args)
 
 
 def get_flight(flight_no, date):
