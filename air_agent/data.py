@@ -41,6 +41,22 @@ def connect():
         conn.close()
 
 
+@contextmanager
+def transaction():
+    """写事务：BEGIN IMMEDIATE 先拿写锁，事务内的读-改-写不会被其他线程/进程穿插。"""
+    conn = sqlite3.connect(db_path(), timeout=10)
+    conn.row_factory = sqlite3.Row
+    try:
+        conn.execute("BEGIN IMMEDIATE")
+        yield conn
+        conn.commit()
+    except BaseException:
+        conn.rollback()
+        raise
+    finally:
+        conn.close()
+
+
 def _row(r):
     if r is None:
         return None
@@ -128,7 +144,9 @@ def set_flight_status(flight_no, date, status, delay_min=0):
                   (status, delay_min if status == "delayed" else 0, flight_no, date))
 
 
-def get_profile(user_id):
+def get_profile(user_id, conn=None):
+    if conn is not None:
+        return _row(conn.execute("SELECT * FROM profiles WHERE user_id=?", (user_id,)).fetchone())
     return _one("SELECT * FROM profiles WHERE user_id=?", (user_id,))
 
 
@@ -136,9 +154,13 @@ def list_profiles():
     return _all("SELECT * FROM profiles ORDER BY user_id")
 
 
-def save_profile(user_id, data):
+def save_profile(user_id, data, conn=None):
+    sql, args = "UPDATE profiles SET data=? WHERE user_id=?", (json.dumps(data, ensure_ascii=False), user_id)
+    if conn is not None:
+        conn.execute(sql, args)
+        return
     with connect() as c:
-        c.execute("UPDATE profiles SET data=? WHERE user_id=?", (json.dumps(data, ensure_ascii=False), user_id))
+        c.execute(sql, args)
 
 
 def get_fee_rule(airline, fare_product):

@@ -71,10 +71,19 @@ def _deep_set(target, patch):
             target[k] = copy.deepcopy(v)
 
 
+MIN_TOKEN_BUDGET = 200      # 系统提示 + 订单信息必须放得下，且不能被截断
+
+
+def _validate(cfg):
+    if cfg["memory"]["token_budget"] < MIN_TOKEN_BUDGET:
+        raise ValueError(f"memory.token_budget 不能小于 {MIN_TOKEN_BUDGET}")
+
+
 def _load():
     cfg = copy.deepcopy(DEFAULTS)
     overrides = json.loads(CONFIG_PATH.read_text("utf-8")) if CONFIG_PATH.exists() else {}
     _merge(cfg, overrides)
+    _validate(cfg)
     return cfg, overrides
 
 
@@ -96,6 +105,7 @@ def update(patch: dict):
         _ensure()
         cfg = copy.deepcopy(_cfg)
         _merge(cfg, patch)                      # 先校验，失败则不改任何状态
+        _validate(cfg)
         overrides = copy.deepcopy(_overrides)
         _deep_set(overrides, patch)
         CONFIG_PATH.write_text(json.dumps(overrides, ensure_ascii=False, indent=2), "utf-8")
