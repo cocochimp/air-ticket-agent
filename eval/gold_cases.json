@@ -1,0 +1,2407 @@
+[
+  {
+    "id": "o01-chg",
+    "title": "订单#1 MU Y_DISCOUNT 帮我把这张票改到9月29号",
+    "tags": [
+      "单诉求"
+    ],
+    "user_id": "u_zhang",
+    "airline": "MU",
+    "fare_product": "Y_DISCOUNT",
+    "order": "#1",
+    "question": "帮我把这张票改到9月29号",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "CHANGE"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": 291
+      },
+      "rule_ids": [
+        "MU-Y_DISCOUNT-CHG"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o01-rfd",
+    "title": "订单#1 MU Y_DISCOUNT 这张票退掉能退多少钱",
+    "tags": [
+      "单诉求"
+    ],
+    "user_id": "u_zhang",
+    "airline": "MU",
+    "fare_product": "Y_DISCOUNT",
+    "order": "#1",
+    "question": "这张票退掉能退多少钱",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "REFUND": 632
+      },
+      "rule_ids": [
+        "MU-Y_DISCOUNT-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o01-both",
+    "title": "订单#1 MU Y_DISCOUNT 改到9月29号要多少钱，顺便看看退票多少",
+    "tags": [
+      "多诉求"
+    ],
+    "user_id": "u_zhang",
+    "airline": "MU",
+    "fare_product": "Y_DISCOUNT",
+    "order": "#1",
+    "question": "改到9月29号要多少钱，顺便看看退票多少",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "CHANGE",
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee",
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": 291,
+        "REFUND": 632
+      },
+      "rule_ids": [
+        "MU-Y_DISCOUNT-CHG",
+        "MU-Y_DISCOUNT-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o01-status",
+    "title": "订单#1 MU Y_DISCOUNT 这个航班现在什么情况",
+    "tags": [
+      "航班状态"
+    ],
+    "user_id": "u_zhang",
+    "airline": "MU",
+    "fare_product": "Y_DISCOUNT",
+    "order": "#1",
+    "question": "这个航班现在什么情况",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "STATUS"
+      ],
+      "tools": [
+        "tool_flight_status"
+      ],
+      "fees": {},
+      "rule_ids": [],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o02-chg",
+    "title": "订单#2 MU Y_DISCOUNT 帮我把这张票改到10月2号",
+    "tags": [
+      "单诉求"
+    ],
+    "user_id": "u_zhang",
+    "airline": "MU",
+    "fare_product": "Y_DISCOUNT",
+    "order": "#2",
+    "question": "帮我把这张票改到10月2号",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "CHANGE"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": 360
+      },
+      "rule_ids": [
+        "MU-Y_DISCOUNT-CHG"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o02-rfd",
+    "title": "订单#2 MU Y_DISCOUNT 这张票退掉能退多少钱",
+    "tags": [
+      "单诉求"
+    ],
+    "user_id": "u_zhang",
+    "airline": "MU",
+    "fare_product": "Y_DISCOUNT",
+    "order": "#2",
+    "question": "这张票退掉能退多少钱",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "REFUND": 680
+      },
+      "rule_ids": [
+        "MU-Y_DISCOUNT-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o02-both",
+    "title": "订单#2 MU Y_DISCOUNT 改到10月2号要多少钱，顺便看看退票多少",
+    "tags": [
+      "多诉求"
+    ],
+    "user_id": "u_zhang",
+    "airline": "MU",
+    "fare_product": "Y_DISCOUNT",
+    "order": "#2",
+    "question": "改到10月2号要多少钱，顺便看看退票多少",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "CHANGE",
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee",
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": 360,
+        "REFUND": 680
+      },
+      "rule_ids": [
+        "MU-Y_DISCOUNT-CHG",
+        "MU-Y_DISCOUNT-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o02-status",
+    "title": "订单#2 MU Y_DISCOUNT 这个航班现在什么情况",
+    "tags": [
+      "航班状态"
+    ],
+    "user_id": "u_zhang",
+    "airline": "MU",
+    "fare_product": "Y_DISCOUNT",
+    "order": "#2",
+    "question": "这个航班现在什么情况",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "STATUS"
+      ],
+      "tools": [
+        "tool_flight_status"
+      ],
+      "fees": {},
+      "rule_ids": [],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o03-chg",
+    "title": "订单#3 CA C 帮我把这张票改到10月7号",
+    "tags": [
+      "单诉求"
+    ],
+    "user_id": "u_zhang",
+    "airline": "CA",
+    "fare_product": "C",
+    "order": "#3",
+    "question": "帮我把这张票改到10月7号",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "CHANGE"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": 0
+      },
+      "rule_ids": [
+        "CA-C-CHG"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o03-rfd",
+    "title": "订单#3 CA C 这张票退掉能退多少钱",
+    "tags": [
+      "单诉求"
+    ],
+    "user_id": "u_zhang",
+    "airline": "CA",
+    "fare_product": "C",
+    "order": "#3",
+    "question": "这张票退掉能退多少钱",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "REFUND": 2741
+      },
+      "rule_ids": [
+        "CA-C-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o03-both",
+    "title": "订单#3 CA C 改到10月7号要多少钱，顺便看看退票多少",
+    "tags": [
+      "多诉求"
+    ],
+    "user_id": "u_zhang",
+    "airline": "CA",
+    "fare_product": "C",
+    "order": "#3",
+    "question": "改到10月7号要多少钱，顺便看看退票多少",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "CHANGE",
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee",
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": 0,
+        "REFUND": 2741
+      },
+      "rule_ids": [
+        "CA-C-CHG",
+        "CA-C-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o03-status",
+    "title": "订单#3 CA C 这个航班现在什么情况",
+    "tags": [
+      "航班状态"
+    ],
+    "user_id": "u_zhang",
+    "airline": "CA",
+    "fare_product": "C",
+    "order": "#3",
+    "question": "这个航班现在什么情况",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "STATUS"
+      ],
+      "tools": [
+        "tool_flight_status"
+      ],
+      "fees": {},
+      "rule_ids": [],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o04-chg",
+    "title": "订单#4 CZ SPECIAL 帮我把这张票改到9月28号",
+    "tags": [
+      "单诉求",
+      "不可办理"
+    ],
+    "user_id": "u_li",
+    "airline": "CZ",
+    "fare_product": "SPECIAL",
+    "order": "#4",
+    "question": "帮我把这张票改到9月28号",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "CHANGE"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": null
+      },
+      "rule_ids": [
+        "CZ-SPECIAL-CHG"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o04-rfd",
+    "title": "订单#4 CZ SPECIAL 这张票退掉能退多少钱",
+    "tags": [
+      "单诉求"
+    ],
+    "user_id": "u_li",
+    "airline": "CZ",
+    "fare_product": "SPECIAL",
+    "order": "#4",
+    "question": "这张票退掉能退多少钱",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "REFUND": 140
+      },
+      "rule_ids": [
+        "CZ-SPECIAL-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o04-both",
+    "title": "订单#4 CZ SPECIAL 改到9月28号要多少钱，顺便看看退票多少",
+    "tags": [
+      "多诉求",
+      "不可办理"
+    ],
+    "user_id": "u_li",
+    "airline": "CZ",
+    "fare_product": "SPECIAL",
+    "order": "#4",
+    "question": "改到9月28号要多少钱，顺便看看退票多少",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "CHANGE",
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee",
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": null,
+        "REFUND": 140
+      },
+      "rule_ids": [
+        "CZ-SPECIAL-CHG",
+        "CZ-SPECIAL-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o04-status",
+    "title": "订单#4 CZ SPECIAL 这个航班现在什么情况",
+    "tags": [
+      "航班状态"
+    ],
+    "user_id": "u_li",
+    "airline": "CZ",
+    "fare_product": "SPECIAL",
+    "order": "#4",
+    "question": "这个航班现在什么情况",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "STATUS"
+      ],
+      "tools": [
+        "tool_flight_status"
+      ],
+      "fees": {},
+      "rule_ids": [],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o05-chg",
+    "title": "订单#5 HU Y 帮我把这张票改到9月27号",
+    "tags": [
+      "单诉求"
+    ],
+    "user_id": "u_li",
+    "airline": "HU",
+    "fare_product": "Y",
+    "order": "#5",
+    "question": "帮我把这张票改到9月27号",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "CHANGE"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": 700
+      },
+      "rule_ids": [
+        "HU-Y-CHG"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o05-rfd",
+    "title": "订单#5 HU Y 这张票退掉能退多少钱",
+    "tags": [
+      "单诉求"
+    ],
+    "user_id": "u_li",
+    "airline": "HU",
+    "fare_product": "Y",
+    "order": "#5",
+    "question": "这张票退掉能退多少钱",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "REFUND": 1114
+      },
+      "rule_ids": [
+        "HU-Y-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o05-both",
+    "title": "订单#5 HU Y 改到9月27号要多少钱，顺便看看退票多少",
+    "tags": [
+      "多诉求"
+    ],
+    "user_id": "u_li",
+    "airline": "HU",
+    "fare_product": "Y",
+    "order": "#5",
+    "question": "改到9月27号要多少钱，顺便看看退票多少",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "CHANGE",
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee",
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": 700,
+        "REFUND": 1114
+      },
+      "rule_ids": [
+        "HU-Y-CHG",
+        "HU-Y-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o05-status",
+    "title": "订单#5 HU Y 这个航班现在什么情况",
+    "tags": [
+      "航班状态"
+    ],
+    "user_id": "u_li",
+    "airline": "HU",
+    "fare_product": "Y",
+    "order": "#5",
+    "question": "这个航班现在什么情况",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "STATUS"
+      ],
+      "tools": [
+        "tool_flight_status"
+      ],
+      "fees": {},
+      "rule_ids": [],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o06-chg",
+    "title": "订单#6 CA F 帮我把这张票改到10月5号",
+    "tags": [
+      "单诉求"
+    ],
+    "user_id": "u_li",
+    "airline": "CA",
+    "fare_product": "F",
+    "order": "#6",
+    "question": "帮我把这张票改到10月5号",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "CHANGE"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": 0
+      },
+      "rule_ids": [
+        "CA-F-CHG"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o06-rfd",
+    "title": "订单#6 CA F 这张票退掉能退多少钱",
+    "tags": [
+      "单诉求"
+    ],
+    "user_id": "u_li",
+    "airline": "CA",
+    "fare_product": "F",
+    "order": "#6",
+    "question": "这张票退掉能退多少钱",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "REFUND": 5230
+      },
+      "rule_ids": [
+        "CA-F-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o06-both",
+    "title": "订单#6 CA F 改到10月5号要多少钱，顺便看看退票多少",
+    "tags": [
+      "多诉求"
+    ],
+    "user_id": "u_li",
+    "airline": "CA",
+    "fare_product": "F",
+    "order": "#6",
+    "question": "改到10月5号要多少钱，顺便看看退票多少",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "CHANGE",
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee",
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": 0,
+        "REFUND": 5230
+      },
+      "rule_ids": [
+        "CA-F-CHG",
+        "CA-F-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o06-status",
+    "title": "订单#6 CA F 这个航班现在什么情况",
+    "tags": [
+      "航班状态"
+    ],
+    "user_id": "u_li",
+    "airline": "CA",
+    "fare_product": "F",
+    "order": "#6",
+    "question": "这个航班现在什么情况",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "STATUS"
+      ],
+      "tools": [
+        "tool_flight_status"
+      ],
+      "fees": {},
+      "rule_ids": [],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o07-chg",
+    "title": "订单#7 MU Y 帮我把这张票改到9月28号",
+    "tags": [
+      "单诉求",
+      "非自愿"
+    ],
+    "user_id": "u_wang",
+    "airline": "MU",
+    "fare_product": "Y",
+    "order": "#7",
+    "question": "帮我把这张票改到9月28号",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "CHANGE"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": 0
+      },
+      "rule_ids": [
+        "GEN-CANCEL"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o07-rfd",
+    "title": "订单#7 MU Y 这张票退掉能退多少钱",
+    "tags": [
+      "单诉求",
+      "非自愿"
+    ],
+    "user_id": "u_wang",
+    "airline": "MU",
+    "fare_product": "Y",
+    "order": "#7",
+    "question": "这张票退掉能退多少钱",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "REFUND": 1350
+      },
+      "rule_ids": [
+        "GEN-CANCEL"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o07-both",
+    "title": "订单#7 MU Y 改到9月28号要多少钱，顺便看看退票多少",
+    "tags": [
+      "多诉求",
+      "非自愿"
+    ],
+    "user_id": "u_wang",
+    "airline": "MU",
+    "fare_product": "Y",
+    "order": "#7",
+    "question": "改到9月28号要多少钱，顺便看看退票多少",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "CHANGE",
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee",
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": 0,
+        "REFUND": 1350
+      },
+      "rule_ids": [
+        "GEN-CANCEL"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o07-status",
+    "title": "订单#7 MU Y 这个航班现在什么情况",
+    "tags": [
+      "航班状态",
+      "非自愿"
+    ],
+    "user_id": "u_wang",
+    "airline": "MU",
+    "fare_product": "Y",
+    "order": "#7",
+    "question": "这个航班现在什么情况",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "STATUS"
+      ],
+      "tools": [
+        "tool_flight_status"
+      ],
+      "fees": {},
+      "rule_ids": [],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o08-chg",
+    "title": "订单#8 CZ Y_DISCOUNT 帮我把这张票改到9月30号",
+    "tags": [
+      "单诉求",
+      "非自愿"
+    ],
+    "user_id": "u_wang",
+    "airline": "CZ",
+    "fare_product": "Y_DISCOUNT",
+    "order": "#8",
+    "question": "帮我把这张票改到9月30号",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "CHANGE"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": 0
+      },
+      "rule_ids": [
+        "GEN-DELAY"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o08-rfd",
+    "title": "订单#8 CZ Y_DISCOUNT 这张票退掉能退多少钱",
+    "tags": [
+      "单诉求",
+      "非自愿"
+    ],
+    "user_id": "u_wang",
+    "airline": "CZ",
+    "fare_product": "Y_DISCOUNT",
+    "order": "#8",
+    "question": "这张票退掉能退多少钱",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "REFUND": 950
+      },
+      "rule_ids": [
+        "GEN-DELAY"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o08-both",
+    "title": "订单#8 CZ Y_DISCOUNT 改到9月30号要多少钱，顺便看看退票多少",
+    "tags": [
+      "多诉求",
+      "非自愿"
+    ],
+    "user_id": "u_wang",
+    "airline": "CZ",
+    "fare_product": "Y_DISCOUNT",
+    "order": "#8",
+    "question": "改到9月30号要多少钱，顺便看看退票多少",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "CHANGE",
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee",
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": 0,
+        "REFUND": 950
+      },
+      "rule_ids": [
+        "GEN-DELAY"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o08-status",
+    "title": "订单#8 CZ Y_DISCOUNT 这个航班现在什么情况",
+    "tags": [
+      "航班状态",
+      "非自愿"
+    ],
+    "user_id": "u_wang",
+    "airline": "CZ",
+    "fare_product": "Y_DISCOUNT",
+    "order": "#8",
+    "question": "这个航班现在什么情况",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "STATUS"
+      ],
+      "tools": [
+        "tool_flight_status"
+      ],
+      "fees": {},
+      "rule_ids": [],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o09-chg",
+    "title": "订单#9 HU GROUP 帮我把这张票改到10月1号",
+    "tags": [
+      "单诉求",
+      "不可办理"
+    ],
+    "user_id": "u_wang",
+    "airline": "HU",
+    "fare_product": "GROUP",
+    "order": "#9",
+    "question": "帮我把这张票改到10月1号",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "CHANGE"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": null
+      },
+      "rule_ids": [
+        "HU-GROUP-CHG"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o09-rfd",
+    "title": "订单#9 HU GROUP 这张票退掉能退多少钱",
+    "tags": [
+      "单诉求",
+      "不可办理"
+    ],
+    "user_id": "u_wang",
+    "airline": "HU",
+    "fare_product": "GROUP",
+    "order": "#9",
+    "question": "这张票退掉能退多少钱",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "REFUND": null
+      },
+      "rule_ids": [
+        "HU-GROUP-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o09-both",
+    "title": "订单#9 HU GROUP 改到10月1号要多少钱，顺便看看退票多少",
+    "tags": [
+      "多诉求",
+      "不可办理"
+    ],
+    "user_id": "u_wang",
+    "airline": "HU",
+    "fare_product": "GROUP",
+    "order": "#9",
+    "question": "改到10月1号要多少钱，顺便看看退票多少",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "CHANGE",
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee",
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": null,
+        "REFUND": null
+      },
+      "rule_ids": [
+        "HU-GROUP-CHG",
+        "HU-GROUP-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o09-status",
+    "title": "订单#9 HU GROUP 这个航班现在什么情况",
+    "tags": [
+      "航班状态"
+    ],
+    "user_id": "u_wang",
+    "airline": "HU",
+    "fare_product": "GROUP",
+    "order": "#9",
+    "question": "这个航班现在什么情况",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "STATUS"
+      ],
+      "tools": [
+        "tool_flight_status"
+      ],
+      "fees": {},
+      "rule_ids": [],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o10-chg",
+    "title": "订单#10 CZ Y 帮我把这张票改到9月27号",
+    "tags": [
+      "单诉求",
+      "误机"
+    ],
+    "user_id": "u_zhang",
+    "airline": "CZ",
+    "fare_product": "Y",
+    "order": "#10",
+    "question": "帮我把这张票改到9月27号",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "CHANGE"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": 390
+      },
+      "rule_ids": [
+        "CZ-Y-CHG"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o10-rfd",
+    "title": "订单#10 CZ Y 这张票退掉能退多少钱",
+    "tags": [
+      "单诉求",
+      "误机"
+    ],
+    "user_id": "u_zhang",
+    "airline": "CZ",
+    "fare_product": "Y",
+    "order": "#10",
+    "question": "这张票退掉能退多少钱",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "REFUND": 830
+      },
+      "rule_ids": [
+        "CZ-Y-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o10-both",
+    "title": "订单#10 CZ Y 改到9月27号要多少钱，顺便看看退票多少",
+    "tags": [
+      "多诉求",
+      "误机"
+    ],
+    "user_id": "u_zhang",
+    "airline": "CZ",
+    "fare_product": "Y",
+    "order": "#10",
+    "question": "改到9月27号要多少钱，顺便看看退票多少",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "CHANGE",
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee",
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": 390,
+        "REFUND": 830
+      },
+      "rule_ids": [
+        "CZ-Y-CHG",
+        "CZ-Y-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o10-status",
+    "title": "订单#10 CZ Y 这个航班现在什么情况",
+    "tags": [
+      "航班状态",
+      "误机"
+    ],
+    "user_id": "u_zhang",
+    "airline": "CZ",
+    "fare_product": "Y",
+    "order": "#10",
+    "question": "这个航班现在什么情况",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "STATUS"
+      ],
+      "tools": [
+        "tool_flight_status"
+      ],
+      "fees": {},
+      "rule_ids": [],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o11-chg",
+    "title": "订单#11 MU Y 帮我把这张票改到10月3号",
+    "tags": [
+      "单诉求"
+    ],
+    "user_id": "u_li",
+    "airline": "MU",
+    "fare_product": "Y",
+    "order": "#11",
+    "question": "帮我把这张票改到10月3号",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "CHANGE"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": 180
+      },
+      "rule_ids": [
+        "MU-Y-CHG"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o11-rfd",
+    "title": "订单#11 MU Y 这张票退掉能退多少钱",
+    "tags": [
+      "单诉求"
+    ],
+    "user_id": "u_li",
+    "airline": "MU",
+    "fare_product": "Y",
+    "order": "#11",
+    "question": "这张票退掉能退多少钱",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "REFUND": 1580
+      },
+      "rule_ids": [
+        "MU-Y-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o11-both",
+    "title": "订单#11 MU Y 改到10月3号要多少钱，顺便看看退票多少",
+    "tags": [
+      "多诉求"
+    ],
+    "user_id": "u_li",
+    "airline": "MU",
+    "fare_product": "Y",
+    "order": "#11",
+    "question": "改到10月3号要多少钱，顺便看看退票多少",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "CHANGE",
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee",
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": 180,
+        "REFUND": 1580
+      },
+      "rule_ids": [
+        "MU-Y-CHG",
+        "MU-Y-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o11-status",
+    "title": "订单#11 MU Y 这个航班现在什么情况",
+    "tags": [
+      "航班状态"
+    ],
+    "user_id": "u_li",
+    "airline": "MU",
+    "fare_product": "Y",
+    "order": "#11",
+    "question": "这个航班现在什么情况",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "STATUS"
+      ],
+      "tools": [
+        "tool_flight_status"
+      ],
+      "fees": {},
+      "rule_ids": [],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o12-chg",
+    "title": "订单#12 CA SPECIAL 帮我把这张票改到9月29号",
+    "tags": [
+      "单诉求",
+      "不可办理"
+    ],
+    "user_id": "u_wang",
+    "airline": "CA",
+    "fare_product": "SPECIAL",
+    "order": "#12",
+    "question": "帮我把这张票改到9月29号",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "CHANGE"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": null
+      },
+      "rule_ids": [
+        "CA-SPECIAL-CHG"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o12-rfd",
+    "title": "订单#12 CA SPECIAL 这张票退掉能退多少钱",
+    "tags": [
+      "单诉求"
+    ],
+    "user_id": "u_wang",
+    "airline": "CA",
+    "fare_product": "SPECIAL",
+    "order": "#12",
+    "question": "这张票退掉能退多少钱",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "REFUND": 175
+      },
+      "rule_ids": [
+        "CA-SPECIAL-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o12-both",
+    "title": "订单#12 CA SPECIAL 改到9月29号要多少钱，顺便看看退票多少",
+    "tags": [
+      "多诉求",
+      "不可办理"
+    ],
+    "user_id": "u_wang",
+    "airline": "CA",
+    "fare_product": "SPECIAL",
+    "order": "#12",
+    "question": "改到9月29号要多少钱，顺便看看退票多少",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "CHANGE",
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee",
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": null,
+        "REFUND": 175
+      },
+      "rule_ids": [
+        "CA-SPECIAL-CHG",
+        "CA-SPECIAL-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "o12-status",
+    "title": "订单#12 CA SPECIAL 这个航班现在什么情况",
+    "tags": [
+      "航班状态"
+    ],
+    "user_id": "u_wang",
+    "airline": "CA",
+    "fare_product": "SPECIAL",
+    "order": "#12",
+    "question": "这个航班现在什么情况",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "STATUS"
+      ],
+      "tools": [
+        "tool_flight_status"
+      ],
+      "fees": {},
+      "rule_ids": [],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "policy-01",
+    "title": "东方云航特价票的退订规定是什么",
+    "tags": [
+      "政策咨询"
+    ],
+    "user_id": "u_wang",
+    "airline": "MU",
+    "fare_product": "SPECIAL",
+    "order": null,
+    "question": "东方云航特价票的退订规定是什么",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "POLICY"
+      ],
+      "tools": [
+        "tool_rule_retrieve"
+      ],
+      "fees": {},
+      "rule_ids": [
+        "MU-SPECIAL-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "policy-02",
+    "title": "国际星航头等舱更改航班有什么规定",
+    "tags": [
+      "政策咨询"
+    ],
+    "user_id": "u_wang",
+    "airline": "CA",
+    "fare_product": "F",
+    "order": null,
+    "question": "国际星航头等舱更改航班有什么规定",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "POLICY"
+      ],
+      "tools": [
+        "tool_rule_retrieve"
+      ],
+      "fees": {},
+      "rule_ids": [
+        "CA-F-CHG"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "policy-03",
+    "title": "南方海航折扣票退订手续费的规定",
+    "tags": [
+      "政策咨询"
+    ],
+    "user_id": "u_wang",
+    "airline": "CZ",
+    "fare_product": "Y_DISCOUNT",
+    "order": null,
+    "question": "南方海航折扣票退订手续费的规定",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "POLICY"
+      ],
+      "tools": [
+        "tool_rule_retrieve"
+      ],
+      "fees": {},
+      "rule_ids": [
+        "CZ-Y_DISCOUNT-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "policy-04",
+    "title": "海岛航空团队票更改行程的规定",
+    "tags": [
+      "政策咨询"
+    ],
+    "user_id": "u_wang",
+    "airline": "HU",
+    "fare_product": "GROUP",
+    "order": null,
+    "question": "海岛航空团队票更改行程的规定",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "POLICY"
+      ],
+      "tools": [
+        "tool_rule_retrieve"
+      ],
+      "fees": {},
+      "rule_ids": [
+        "HU-GROUP-CHG"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "policy-05",
+    "title": "东方云航公务舱退订政策",
+    "tags": [
+      "政策咨询"
+    ],
+    "user_id": "u_wang",
+    "airline": "MU",
+    "fare_product": "C",
+    "order": null,
+    "question": "东方云航公务舱退订政策",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "POLICY"
+      ],
+      "tools": [
+        "tool_rule_retrieve"
+      ],
+      "fees": {},
+      "rule_ids": [
+        "MU-C-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "policy-06",
+    "title": "国际星航经济舱全价票更改航班的规则",
+    "tags": [
+      "政策咨询"
+    ],
+    "user_id": "u_wang",
+    "airline": "CA",
+    "fare_product": "Y",
+    "order": null,
+    "question": "国际星航经济舱全价票更改航班的规则",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "POLICY"
+      ],
+      "tools": [
+        "tool_rule_retrieve"
+      ],
+      "fees": {},
+      "rule_ids": [
+        "CA-Y-CHG"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "policy-07",
+    "title": "南方海航头等舱退订规则",
+    "tags": [
+      "政策咨询"
+    ],
+    "user_id": "u_wang",
+    "airline": "CZ",
+    "fare_product": "F",
+    "order": null,
+    "question": "南方海航头等舱退订规则",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "POLICY"
+      ],
+      "tools": [
+        "tool_rule_retrieve"
+      ],
+      "fees": {},
+      "rule_ids": [
+        "CZ-F-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "id": "policy-08",
+    "title": "海岛航空打折票更改航班政策",
+    "tags": [
+      "政策咨询"
+    ],
+    "user_id": "u_wang",
+    "airline": "HU",
+    "fare_product": "Y_DISCOUNT",
+    "order": null,
+    "question": "海岛航空打折票更改航班政策",
+    "history": [],
+    "clarify_answers": [],
+    "expect": {
+      "intents": [
+        "POLICY"
+      ],
+      "tools": [
+        "tool_rule_retrieve"
+      ],
+      "fees": {},
+      "rule_ids": [
+        "HU-Y_DISCOUNT-CHG"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    },
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ]
+  },
+  {
+    "tags": [
+      "追问"
+    ],
+    "user_id": "u_zhang",
+    "airline": "CA",
+    "fare_product": "C",
+    "order": null,
+    "history": [],
+    "clarify_answers": [
+      "#3"
+    ],
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ],
+    "id": "clarify-order",
+    "title": "没指定订单，追问后选择订单#3",
+    "question": "我要退票",
+    "expect": {
+      "intents": [
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "REFUND": 2741
+      },
+      "rule_ids": [
+        "CA-C-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    }
+  },
+  {
+    "tags": [
+      "追问"
+    ],
+    "user_id": "u_zhang",
+    "airline": "MU",
+    "fare_product": "Y_DISCOUNT",
+    "order": "#1",
+    "history": [],
+    "clarify_answers": [
+      "2026-09-29"
+    ],
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ],
+    "id": "clarify-date",
+    "title": "改签没说日期，追问后选 9月29日",
+    "question": "我想改签",
+    "expect": {
+      "intents": [
+        "CHANGE"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": 291
+      },
+      "rule_ids": [
+        "MU-Y_DISCOUNT-CHG"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    }
+  },
+  {
+    "tags": [
+      "追问",
+      "Schema"
+    ],
+    "user_id": "u_zhang",
+    "airline": "MU",
+    "fare_product": "Y_DISCOUNT",
+    "order": "#1",
+    "history": [],
+    "clarify_answers": [
+      "2026-10-02"
+    ],
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ],
+    "id": "clarify-vague-date",
+    "title": "模糊日期触发 Schema 校验，再追问",
+    "question": "改到下个月初",
+    "expect": {
+      "intents": [
+        "CHANGE"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": 401
+      },
+      "rule_ids": [
+        "MU-Y_DISCOUNT-CHG"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": [
+        "TYPE"
+      ]
+    }
+  },
+  {
+    "tags": [
+      "指代"
+    ],
+    "user_id": "u_zhang",
+    "airline": "MU",
+    "fare_product": "Y_DISCOUNT",
+    "order": null,
+    "history": [
+      {
+        "message": "帮我把杭州飞北京那张改到9月29号",
+        "order": null
+      }
+    ],
+    "clarify_answers": [],
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ],
+    "id": "coref-return",
+    "title": "上一轮提到去程，这一轮问回程",
+    "question": "回程那张能退吗",
+    "expect": {
+      "intents": [
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "REFUND": 680
+      },
+      "rule_ids": [
+        "MU-Y_DISCOUNT-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    }
+  },
+  {
+    "tags": [
+      "指代"
+    ],
+    "user_id": "u_zhang",
+    "airline": "MU",
+    "fare_product": "Y_DISCOUNT",
+    "order": null,
+    "history": [
+      {
+        "message": "改到9月29号",
+        "order": "#1"
+      }
+    ],
+    "clarify_answers": [],
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ],
+    "id": "coref-ellipsis",
+    "title": "省略追问：那退票呢",
+    "question": "那退票呢",
+    "expect": {
+      "intents": [
+        "REFUND"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "REFUND": 632
+      },
+      "rule_ids": [
+        "MU-Y_DISCOUNT-RFD"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    }
+  },
+  {
+    "tags": [
+      "指代"
+    ],
+    "user_id": "u_zhang",
+    "airline": "CA",
+    "fare_product": "C",
+    "order": null,
+    "history": [
+      {
+        "message": "退票多少钱",
+        "order": "#3"
+      }
+    ],
+    "clarify_answers": [],
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ],
+    "id": "coref-stack",
+    "title": "订单栈：上一轮问#3，这一轮只说日期",
+    "question": "那改到10月8号呢",
+    "expect": {
+      "intents": [
+        "CHANGE"
+      ],
+      "tools": [
+        "tool_flight_status",
+        "tool_rule_retrieve",
+        "tool_recalc_fee"
+      ],
+      "fees": {
+        "CHANGE": 130
+      },
+      "rule_ids": [
+        "CA-C-CHG"
+      ],
+      "outcome": "ANSWER",
+      "schema_errors": []
+    }
+  },
+  {
+    "tags": [
+      "转人工",
+      "追问"
+    ],
+    "user_id": "u_wang",
+    "airline": null,
+    "fare_product": null,
+    "order": null,
+    "history": [],
+    "clarify_answers": [
+      "POLICY"
+    ],
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ],
+    "id": "human-01",
+    "title": "宠物能带上飞机吗",
+    "question": "宠物能带上飞机吗",
+    "expect": {
+      "intents": [
+        "POLICY"
+      ],
+      "tools": [
+        "tool_rule_retrieve"
+      ],
+      "fees": {},
+      "rule_ids": [],
+      "outcome": "HUMAN",
+      "schema_errors": []
+    }
+  },
+  {
+    "tags": [
+      "转人工",
+      "追问"
+    ],
+    "user_id": "u_wang",
+    "airline": null,
+    "fare_product": null,
+    "order": null,
+    "history": [],
+    "clarify_answers": [
+      "POLICY"
+    ],
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ],
+    "id": "human-02",
+    "title": "会员积分怎么兑换里程",
+    "question": "会员积分怎么兑换里程",
+    "expect": {
+      "intents": [
+        "POLICY"
+      ],
+      "tools": [
+        "tool_rule_retrieve"
+      ],
+      "fees": {},
+      "rule_ids": [],
+      "outcome": "HUMAN",
+      "schema_errors": []
+    }
+  },
+  {
+    "tags": [
+      "转人工",
+      "追问"
+    ],
+    "user_id": "u_wang",
+    "airline": null,
+    "fare_product": null,
+    "order": null,
+    "history": [],
+    "clarify_answers": [
+      "POLICY"
+    ],
+    "forbid": [
+      "quote_mismatch",
+      "unsupported_claim",
+      "skip_rule"
+    ],
+    "id": "human-03",
+    "title": "机上餐食可以选素食吗",
+    "question": "机上餐食可以选素食吗",
+    "expect": {
+      "intents": [
+        "POLICY"
+      ],
+      "tools": [
+        "tool_rule_retrieve"
+      ],
+      "fees": {},
+      "rule_ids": [],
+      "outcome": "HUMAN",
+      "schema_errors": []
+    }
+  }
+]
