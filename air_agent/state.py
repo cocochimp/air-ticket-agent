@@ -1,9 +1,16 @@
 """LangGraph 状态与各模块之间传递的数据模型。"""
-import operator
 from typing import Annotated, Literal, TypedDict
 from pydantic import BaseModel, Field
 
 Intent = Literal["CHANGE", "REFUND", "POLICY", "STATUS"]
+def trace_reducer(old: list | None, new: list | None) -> list:
+    """每轮从 user_input 开始重置 trace；resume 时继续追加。"""
+    new = new or []
+    if new and new[0].get("node") == "user_input":
+        return list(new)
+    return (old or []) + new
+
+
 INTENT_LABEL = {"CHANGE": "改签", "REFUND": "退票", "POLICY": "政策咨询", "STATUS": "航班状态"}
 
 
@@ -76,4 +83,12 @@ class AgentState(TypedDict, total=False):
     # 结果
     outcome: str                  # ANSWER | CLARIFY | HUMAN | TICKETED | CANCELLED
     final: dict
-    trace: Annotated[list[dict], operator.add]
+    # 图运行期辅助字段
+    memory: dict
+    clarified: dict               # 追问得到的值：{order_id | target_date | intent: value}
+    clarify_req: dict | None      # agent_node 发起的追问
+    clarify_count: int
+    gate_blocks: int
+    stepped_back: bool
+    confirm: dict | None
+    trace: Annotated[list[dict], trace_reducer]
