@@ -1,0 +1,56 @@
+/* 设计 token：AI-Native UI，默认深色，另配浅色语义 token */
+:root, [data-theme="dark"] {
+  --bg: #0B0F1A;
+  --bg-elev: #0E1322;
+  --card: #111827;
+  --card-2: #151D2E;
+  --border: #1F2937;
+  --border-strong: #334155;
+  --text: #E5E7EB;
+  --text-muted: #9CA3AF;
+  --text-faint: #8B95A7;
+  --primary: #6366F1;
+  --primary-hover: #7C7FF5;
+  --primary-text: #A5B4FC;
+  --primary-soft: rgba(99, 102, 241, .16);
+  --success: #10B981;
+  --success-text: #34D399;
+  --success-soft: rgba(16, 185, 129, .14);
+  --warning: #F59E0B;
+  --warning-text: #FBBF24;
+  --warning-soft: rgba(245, 158, 11, .14);
+  --danger: #EF4444;
+  --danger-text: #F87171;
+  --danger-soft: rgba(239, 68, 68, .14);
+  --info-text: #67E8F9;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px rgba(0, 0, 0, .25);
+  --shadow-lg: 0 24px 64px rgba(0, 0, 0, .55);
+  --glow: 0 0 0 1px rgba(99, 102, 241, .35), 0 0 24px rgba(99, 102, 241, .18);
+  --scrim: rgba(3, 6, 14, .66);
+  --code-bg: #0A0E18;
+  --chart-1: #6366F1; --chart-2: #22D3EE; --chart-3: #10B981; --chart-4: #F59E0B; --chart-5: #EC4899;
+  color-scheme: dark;
+
+  --radius: 12px; --radius-sm: 8px; --radius-xs: 6px;
+  --font: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "Noto Sans CJK SC", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  --dur: 200ms; --dur-fast: 150ms; --ease: cubic-bezier(.2, .8, .2, 1);
+  --nav-w: 68px; --topbar-h: 60px;
+}
+
+[data-theme="light"] {
+  --bg: #F5F7FB; --bg-elev: #EEF1F7; --card: #FFFFFF; --card-2: #F8FAFC;
+  --border: #E2E8F0; --border-strong: #CBD5E1;
+  --text: #0F172A; --text-muted: #475569; --text-faint: #5B6779;
+  --primary: #4F46E5; --primary-hover: #4338CA; --primary-text: #4338CA; --primary-soft: rgba(79, 70, 229, .1);
+  --success: #059669; --success-text: #047857; --success-soft: rgba(5, 150, 105, .1);
+  --warning: #D97706; --warning-text: #B45309; --warning-soft: rgba(217, 119, 6, .12);
+  --danger: #DC2626; --danger-text: #B91C1C; --danger-soft: rgba(220, 38, 38, .1);
+  --info-text: #0E7490;
+  --shadow: 0 1px 2px rgba(15, 23, 42, .06), 0 8px 24px rgba(15, 23, 42, .06);
+  --shadow-lg: 0 24px 64px rgba(15, 23, 42, .18);
+  --glow: 0 0 0 1px rgba(79, 70, 229, .3), 0 0 20px rgba(79, 70, 229, .12);
+  --scrim: rgba(15, 23, 42, .45); --code-bg: #F1F5F9;
+  --chart-1: #4F46E5; --chart-2: #0891B2; --chart-3: #059669; --chart-4: #D97706; --chart-5: #DB2777;
+  color-scheme: light;
+}

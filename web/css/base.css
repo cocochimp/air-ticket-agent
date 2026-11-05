@@ -1,0 +1,49 @@
+/* 基础排版与应用骨架 */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--text); font-family: var(--font);
+  font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased;
+  transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+h1, h2, h3, h4 { margin: 0; line-height: 1.3; font-weight: 600; }
+h2 { font-size: 20px; } h3 { font-size: 16px; } h4 { font-size: 14px; }
+p { margin: 0; }
+a { color: var(--primary-text); }
+button, input, select, textarea { font: inherit; color: inherit; }
+code, pre, .mono { font-family: var(--mono); }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.muted { color: var(--text-muted); } .faint { color: var(--text-faint); }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.skip-link { position: absolute; left: 8px; top: -40px; z-index: 100; padding: 8px 12px; background: var(--primary); color: #fff; border-radius: var(--radius-sm); }
+.skip-link:focus { top: 8px; }
+:focus-visible { outline: 2px solid var(--primary-text); outline-offset: 2px; border-radius: var(--radius-xs); }
+svg.i { width: 18px; height: 18px; flex: none; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; vertical-align: -3px; }
+svg.i.sm { width: 14px; height: 14px; vertical-align: -2px; } svg.i.lg { width: 22px; height: 22px; }
+::selection { background: var(--primary-soft); }
+* { scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent; }
+
+.app { display: grid; grid-template-columns: var(--nav-w) 1fr; grid-template-rows: var(--topbar-h) 1fr; height: 100vh; }
+.sidenav { grid-row: 1 / 3; background: var(--bg-elev); border-right: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; padding: 12px 0; gap: 16px; }
+.brand { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; color: #fff; background: linear-gradient(135deg, #6366F1, #22D3EE); box-shadow: var(--glow); }
+.nav-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.nav-list a { position: relative; width: 48px; height: 52px; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: var(--text-muted); text-decoration: none; font-size: 11px; transition: background var(--dur-fast), color var(--dur-fast); }
+.nav-list a:hover { background: var(--card); color: var(--text); }
+.nav-list a[aria-current="page"] { background: var(--primary-soft); color: var(--primary-text); }
+.nav-list a[aria-current="page"]::before { content: ""; position: absolute; left: -10px; top: 12px; bottom: 12px; width: 3px; border-radius: 3px; background: var(--primary); }
+.topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 20px; border-bottom: 1px solid var(--border); background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: blur(8px); min-width: 0; }
+.topbar-title { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.topbar-title h1 { font-size: 17px; white-space: nowrap; }
+.topbar-actions { display: flex; align-items: center; gap: 10px; flex-wrap: nowrap; }
+.view { overflow: auto; min-width: 0; min-height: 0; outline: none; }
+.page { padding: 20px 24px 32px; max-width: 1680px; margin: 0 auto; }
+.page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+.page-head p { color: var(--text-muted); font-size: 14px; margin-top: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+@media (max-width: 760px) {
+  .topbar { padding: 0 12px; } .topbar-title .badge-demo, #retrieval-badge { display: none; }
+  .page { padding: 16px 12px 24px; }
+}
