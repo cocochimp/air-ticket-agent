@@ -25,6 +25,11 @@ DOMAIN_TERMS = ("改签", "改期", "退票", "退款", "退", "改", "手续费
 STAGE_LABEL = {"dense": "向量召回", "sparse": "BM25 召回", "rrf": "RRF 融合", "filter": "硬过滤",
                "rerank": "精排", "mmr": "MMR 去冗余", "inject": "注入生成"}
 
+
+def has_domain_term(text: str) -> bool:
+    """问题里是否出现退改相关词；没有的话属于无关问题。"""
+    return any(t in (text or "") for t in DOMAIN_TERMS)
+
 # 规则文本里没有、但旅客常说的同义说法：检索时补上规则里的正式用语（只影响召回，不改返回的 query）
 SYNONYMS = {"推迟": "改签 改期", "延期": "改签 改期", "改天": "改签 改期", "换一天": "改签 改期",
             "变更": "改签", "更改": "改签 改期", "退订": "退票", "不坐": "退票", "不去": "退票"}

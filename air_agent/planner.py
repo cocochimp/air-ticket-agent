@@ -27,7 +27,11 @@ def build_args(tool, p: ParsedQuery, sub: SubQuery) -> dict:
         scen = query.scenario_for(p, sub)
         name = seed.AIRLINES.get(p.airline or "", "")
         prod = seed.PRODUCTS.get(p.fare_product or "", ("", ""))[1]
-        args = {"query": f"{name}{prod}{query.KIND_LABEL.get(scen or '', '')} {sub.text}".strip()}
+        # 政策咨询用乘客原话检索，避免拼上航司/票种后让无关问题绕过相关性门槛
+        if sub.intent == "POLICY":
+            args = {"query": sub.text.strip() or p.rewritten}
+        else:
+            args = {"query": f"{name}{prod}{query.KIND_LABEL.get(scen or '', '')} {sub.text}".strip()}
         for k in ("airline", "fare_product"):
             if getattr(p, k):
                 args[k] = getattr(p, k)

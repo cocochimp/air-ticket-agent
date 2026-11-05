@@ -100,3 +100,10 @@ def test_resume_after_restart():
     assert graph.pending_interrupt("s10")["kind"] == "clarify"
     res = graph.resume("s10", {"value": O3})
     assert res["outcome"] == "ANSWER"
+
+
+def test_off_topic_with_selected_order_goes_human():
+    res = graph.run_turn("s11", "u_zhang", "宠物能带上飞机吗", order_id=O1)
+    assert res["interrupt"]["kind"] == "clarify"
+    res = graph.resume("s11", {"value": "POLICY"})
+    assert res["outcome"] == "HUMAN"

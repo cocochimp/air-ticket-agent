@@ -340,7 +340,8 @@ def after_tool(state):
         return "sub_done"
     p = state["parsed"]
     if (last["tool"] == "tool_rule_retrieve" and not state.get("stepped_back") and (p.get("fare_product") or p.get("airline"))
-            and len(last["output"]["rules"]) < S.get()["query"]["step_back_min_hits"]):
+            and len(last["output"]["rules"]) < S.get()["query"]["step_back_min_hits"]
+            and retrieval.has_domain_term(last["args"].get("query", ""))):   # 无关问题不做泛化改写，交给校验转人工
         return "step_back"
     return "agent_node"
 
