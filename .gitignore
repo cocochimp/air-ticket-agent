@@ -5,3 +5,5 @@ models/
 var/
 config.json
 .pytest_cache/
+.DS_Store
+.idea/
