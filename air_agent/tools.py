@@ -166,8 +166,11 @@ def issue_ticket(args: dict) -> dict:
     try:
         # 幂等检查、改订单、写 tickets 在同一个写事务里：并发的同一 confirm_id 只会办理一次
         with data.transaction() as c:
-            row = c.execute("SELECT result FROM tickets WHERE confirm_id=?", (a["confirm_id"],)).fetchone()
+            row = c.execute("SELECT order_id, action, result FROM tickets WHERE confirm_id=?",
+                            (a["confirm_id"],)).fetchone()
             if row:
+                if (row["order_id"], row["action"]) != (a["order_id"], a["action"]):
+                    return {"status": "REJECTED", "reason": "确认号已用于其他订单或操作"}
                 return {**json.loads(row["result"]), "idempotent": True}
             fee = engine.calc(a["order_id"], a["action"], a["target_date"], a["target_flight"])
             if not fee["allowed"]:

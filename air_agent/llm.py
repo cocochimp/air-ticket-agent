@@ -42,14 +42,20 @@ class DeepSeekClient:
         self.usage["calls"] += 1
         self.usage["prompt_tokens"] += u.get("prompt_tokens", 0)
         self.usage["completion_tokens"] += u.get("completion_tokens", 0)
-        return payload["choices"][0]["message"]
+        try:
+            return payload["choices"][0]["message"]
+        except (KeyError, IndexError, TypeError) as e:
+            raise LLMError(f"响应格式异常：{type(e).__name__}") from e
 
     def _json(self, system, user) -> dict:
         msg = self.chat([{"role": "system", "content": system}, {"role": "user", "content": user}], json_mode=True)
         try:
-            return json.loads(msg.get("content") or "{}")
+            out = json.loads(msg.get("content") or "{}")
         except json.JSONDecodeError as e:
             raise LLMError(f"JSON 解析失败：{e}") from e
+        if not isinstance(out, dict):
+            raise LLMError("JSON 顶层必须是对象")
+        return out
 
     def react(self, messages, tools=None) -> dict:
         from .tools import llm_specs

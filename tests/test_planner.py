@@ -90,3 +90,10 @@ def test_get_client_requires_key():
     with pytest.raises(llm.LLMNotConfigured):
         llm.get_client("deepseek")
     assert llm.get_client("offline") is None
+
+
+def test_malformed_payload_raises_llm_error():
+    S.update({"mode": "deepseek", "llm": {"api_key": "sk-test-000000"}})
+    client = llm.DeepSeekClient(transport=httpx.MockTransport(lambda r: httpx.Response(200, json={"oops": 1})))
+    with pytest.raises(llm.LLMError):
+        client.react([{"role": "user", "content": "x"}])

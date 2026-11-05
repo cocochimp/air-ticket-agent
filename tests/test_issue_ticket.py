@@ -76,3 +76,11 @@ def test_engine_error_is_rejected():
     data.init()
     r = tools.issue_ticket({"order_id": "ORD20260926999", "action": "REFUND", "confirm_id": "confirm-none"})
     assert r["status"] == "REJECTED"
+
+
+def test_confirm_id_reuse_on_other_order_rejected():
+    data.init()
+    tools.issue_ticket({"order_id": f"ORD{D}003", "action": "REFUND", "confirm_id": "confirm-reuse"})
+    r = tools.issue_ticket({"order_id": f"ORD{D}001", "action": "REFUND", "confirm_id": "confirm-reuse"})
+    assert r["status"] == "REJECTED"
+    assert data.get_order(f"ORD{D}001")["status"] == "ISSUED"
