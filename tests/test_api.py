@@ -190,7 +190,7 @@ def test_resume_and_session(client, fake_graph):
 # ---------------- 评测 ----------------
 CASE = {"id": "c01", "title": "改签差价", "tags": ["change"], "user_id": "u_zhang", "airline": "MU",
         "fare_product": "Y_DISCOUNT", "order": "#1", "question": "帮我改到大后天", "history": [],
-        "clarify_answers": {}, "expect": {"intents": ["CHANGE"], "tools": ["tool_rule_retrieve", "tool_recalc_fee"],
+        "clarify_answers": [], "expect": {"intents": ["CHANGE"], "tools": ["tool_rule_retrieve", "tool_recalc_fee"],
                                           "fees": {"CHANGE": 90}, "rule_ids": ["MU-Y_DISCOUNT-CHG"],
                                           "outcome": "ANSWER"}, "forbid": []}
 
@@ -223,10 +223,10 @@ def test_eval_cases_get_put_validate(client, monkeypatch):
     assert r["source"] == "shape" and r["errors"]["c9"]
 
 
-def test_eval_runs_list_and_get(client, tmp_path):
-    from air_agent import settings as S
-    d = S.VAR_DIR / "eval_runs"
+def test_eval_runs_list_and_get(client, tmp_path, monkeypatch):
+    d = tmp_path / "eval_runs"
     d.mkdir(parents=True)
+    monkeypatch.setattr(web, "RUNS_DIR", d)
     (d / "r1.json").write_text(json.dumps({"id": "r1", "created_at": "2026-09-26T10:00", "mode": "offline",
                                            "summary": {"n": 1}, "results": []}), "utf-8")
     runs = client.get("/api/eval/runs").json()

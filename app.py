@@ -34,6 +34,7 @@ from air_agent import settings as S
 ROOT = Path(__file__).resolve().parent
 WEB_DIR = ROOT / "web"
 EVAL_CASES = ROOT / "eval" / "gold_cases.json"
+RUNS_DIR = ROOT / "var" / "eval_runs"          # 与 air_agent.evaluation.RUNS_DIR 一致
 ID = r"^[\w-]{1,64}$"
 ID_RE = re.compile(ID)
 EXECUTOR = ThreadPoolExecutor(max_workers=4, thread_name_prefix="turn")
@@ -447,7 +448,7 @@ def validate_cases(req: CasesReq):
 
 
 def _runs_dir() -> Path:
-    return S.VAR_DIR / "eval_runs"
+    return RUNS_DIR
 
 
 _run_lock = threading.Lock()
