@@ -205,8 +205,11 @@ def understand(question: str, ctx: dict, llm=None) -> ParsedQuery:
     if llm is not None:
         subs = llm.parse_intents(question, ctx, subs) or subs
     if not subs:
-        intent = ctx.get("forced_intent") or ctx.get("last_intent") or "POLICY"
-        guessed = not (ctx.get("forced_intent") or ctx.get("last_intent"))
+        # 只有省略式追问（「那大后天呢」「那退票呢」这类短句）才继承上一轮意图；无关问题不继承
+        ellipsis = bool(re.match(r"^\s*(那|那么|还有|再|如果)", question)) or bool(re.search(r"呢[？?]?\s*$", question))
+        inherited = ctx.get("last_intent") if ellipsis else None
+        intent = ctx.get("forced_intent") or inherited or "POLICY"
+        guessed = not (ctx.get("forced_intent") or inherited)
         subs = [SubQuery(intent=intent, text=question, target_date=find_date(question) if intent == "CHANGE" else None)]
     for s in subs:   # 改签日期可能写在别的分句里；forced_date 是本轮追问刚拿到的值（图里每轮重置），优先于文本
         if s.intent == "CHANGE":

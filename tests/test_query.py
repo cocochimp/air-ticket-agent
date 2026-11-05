@@ -212,3 +212,9 @@ def test_order_label_tolerates_missing_flight():
 def test_status_intent_only_for_status_questions(text, intents):
     p = query.understand(text, ctx(user_id="u_wang", selected_order_id=f"ORD{D}007"))
     assert [s.intent for s in p.sub_queries] == intents
+
+
+def test_unrelated_question_does_not_inherit_intent():
+    p = query.understand("宠物能带上飞机吗", ctx(selected_order_id=f"ORD{D}001", last_intent="REFUND"))
+    assert p.sub_queries[0].intent == "POLICY"
+    assert p.clarify is not None and p.clarify["field"] == "intent"
